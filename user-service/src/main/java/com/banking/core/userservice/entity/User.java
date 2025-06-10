@@ -46,10 +46,6 @@ public class User {
 
   private String pinHash; // hashed 6-digit PIN
 
-  private String role;
+  private String role; // CUSTOMER, TELLER, ADMIN
 
-//  @ElementCollection(fetch = FetchType.EAGER)
-//  @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//  @Column(name = "role")
-//  private List<String> roles;
 }
