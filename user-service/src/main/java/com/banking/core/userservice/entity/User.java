@@ -40,12 +40,14 @@ public class User {
   @Column(length = 13, nullable = false)
   private String citizenId;
 
+  @Column(nullable = false)
   private String thaiName;
 
+  @Column(nullable = false)
   private String englishName;
 
   private String pinHash; // hashed 6-digit PIN
 
-  private String role; // CUSTOMER, TELLER, ADMIN
+  private String role; // CUSTOMER, TELLER
 
 }
