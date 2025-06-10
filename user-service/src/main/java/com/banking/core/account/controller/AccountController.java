@@ -8,6 +8,7 @@ import com.banking.core.account.service.AccountService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
+    @PreAuthorize("hasRole('TELLER')")
     public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest request) {
         String tellerName = "TELLER";
         return ResponseEntity.ok(accountService.createAccount(request, tellerName));

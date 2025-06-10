@@ -5,6 +5,7 @@ import com.banking.core.account.dto.DepositResponse;
 import com.banking.core.account.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class DepositController {
   private final DepositService depositService;
 
   @PostMapping
+  @PreAuthorize("hasRole('TELLER')")
   public ResponseEntity<DepositResponse> deposit(@RequestBody DepositRequest request) {
     // จำลอง role จาก security context (จริงควรดึงจาก JWT auth)
     String role = "TELLER";
