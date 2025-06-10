@@ -6,6 +6,7 @@ import com.banking.core.userservice.entity.User;
 import com.banking.core.userservice.repository.UserRepository;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class RegisterService {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+
 
   public UserResponse register(RegisterRequest request) {
     if (userRepository.existsByEmail(request.getEmail())) {
@@ -24,7 +27,8 @@ public class RegisterService {
 
     User user = User.builder()
         .email(request.getEmail())
-        .password(request.getPassword())
+//        .password(request.getPassword())
+        .password(passwordEncoder.encode(request.getPassword()))
         .citizenId(request.getCitizenId())
         .thaiName(request.getThaiName())
         .englishName(request.getEnglishName())
