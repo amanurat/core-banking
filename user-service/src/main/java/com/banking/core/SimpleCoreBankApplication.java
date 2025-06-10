@@ -1,13 +1,13 @@
-package com.banking.core.userservice;
+package com.banking.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserServiceApplication {
+public class SimpleCoreBankApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(UserServiceApplication.class, args);
+    SpringApplication.run(SimpleCoreBankApplication.class, args);
   }
 
 }
