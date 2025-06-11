@@ -5,11 +5,13 @@ import com.banking.core.account.dto.AccountResponse;
 import com.banking.core.account.dto.CreateAccountRequest;
 import com.banking.core.account.entity.Account;
 import com.banking.core.account.repository.AccountRepository;
+import com.banking.core.userservice.dto.UserDetail;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +21,8 @@ public class AccountService {
 
   private final SecureRandom random = new SecureRandom();
 
-  public AccountResponse createAccount(CreateAccountRequest request, String tellerName) {
+  @Transactional
+  public AccountResponse createAccount(CreateAccountRequest request, UserDetail authenticatedUser) {
     String accountNumber = generateUniqueAccountNumber();
 
     Account account = Account.builder()
@@ -27,6 +30,7 @@ public class AccountService {
         .citizenId(request.getCitizenId())
         .thaiName(request.getThaiName())
         .englishName(request.getEnglishName())
+        .createdBy(authenticatedUser.getThaiName())
         .build();
 
     account = accountRepository.save(account);
@@ -54,9 +58,6 @@ accountNumber = String.format("%07d", random.nextInt(10_000_000));
   }
 
   public List<Account> getAllAccounts() {
-//    return accountRepository.findAll().stream().map(
-//        account -> new AccountResponse(account.getAccountNumber(), account.getBalance())).toList();
-
     return accountRepository.findAll();
 
   }
