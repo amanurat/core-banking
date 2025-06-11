@@ -34,6 +34,7 @@ public class SimpleCoreBankApplication {
         teller1.setPassword(passwordEncoder.encode("password"));
         teller1.setThaiName("จอน");
         teller1.setEnglishName("john");
+        teller1.setPin(passwordEncoder.encode("123456"));
         userRepository.save(teller1);
         System.out.println("Created Teller user: " + teller1.getEmail());
       }
@@ -46,6 +47,7 @@ public class SimpleCoreBankApplication {
         teller2.setPassword(passwordEncoder.encode("password"));
         teller2.setThaiName("ซาร่า");
         teller2.setEnglishName("sara");
+        teller2.setPin(passwordEncoder.encode("123456"));
         userRepository.save(teller2);
         System.out.println("Created Teller user: " + teller2.getEmail());
       }
