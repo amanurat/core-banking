@@ -51,6 +51,7 @@ public class TransferService {
         Account from = accountRepository.findByAccountNumber(request.getFromAccount())
             .orElseThrow(() -> new RuntimeException("Source account not found"));
 
+        // Check authorization - only owner account can access
         if (!from.getCitizenId().equals(authenticatedUser.getCitizenId())) {
             throw new RuntimeException("You are not the owner of this account");
         }

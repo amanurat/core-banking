@@ -25,6 +25,7 @@ public class StatementService {
   private final PasswordEncoder passwordEncoder;
 
   public List<StatementItemResponse> getStatement(StatementRequest request, UserDetail authenticated) {
+    // Check authorization - only owner account can access
     Account acc = accountRepository.findByAccountNumber(request.getAccountNumber())
         .orElseThrow(() -> new RuntimeException("Account not found"));
 

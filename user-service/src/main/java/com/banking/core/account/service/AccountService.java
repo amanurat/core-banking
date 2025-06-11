@@ -44,7 +44,7 @@ public class AccountService {
 
     do {
       // Generate a random 7-digit account number with leading zeros
-accountNumber = String.format("%07d", random.nextInt(10_000_000));
+      accountNumber = String.format("%07d", random.nextInt(10_000_000));
 
       attempts++;
       // Prevent infinite loop by throwing exception after max attempts
