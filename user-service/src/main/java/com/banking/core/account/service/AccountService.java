@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-
   private final AccountRepository accountRepository;
 
   private final SecureRandom random = new SecureRandom();
@@ -30,6 +29,7 @@ public class AccountService {
         .thaiName(request.getThaiName())
         .englishName(request.getEnglishName())
         .createdBy(authenticatedUser.getThaiName())
+        .balance(request.getDepositAmount())
         .build();
 
     account = accountRepository.save(account);
