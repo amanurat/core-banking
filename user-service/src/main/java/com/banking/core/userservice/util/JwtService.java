@@ -1,7 +1,6 @@
 package com.banking.core.userservice.util;
 
 import com.banking.core.userservice.entity.User;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

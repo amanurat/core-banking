@@ -6,11 +6,10 @@ import com.banking.core.account.dto.CreateAccountRequest;
 import com.banking.core.account.entity.Account;
 import com.banking.core.account.repository.AccountRepository;
 import com.banking.core.userservice.dto.UserDetail;
+import java.security.SecureRandom;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

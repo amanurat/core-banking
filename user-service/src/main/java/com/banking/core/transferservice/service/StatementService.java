@@ -9,7 +9,6 @@ import com.banking.core.transferservice.repository.TransactionRepository;
 import com.banking.core.userservice.dto.UserDetail;
 import com.banking.core.userservice.entity.User;
 import com.banking.core.userservice.repository.UserRepository;
-import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

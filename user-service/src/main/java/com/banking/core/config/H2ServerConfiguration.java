@@ -1,7 +1,5 @@
 package com.banking.core.config;
 
-import java.sql.SQLException;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

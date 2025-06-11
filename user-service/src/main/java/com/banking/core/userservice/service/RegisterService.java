@@ -4,7 +4,6 @@ import com.banking.core.userservice.dto.RegisterRequest;
 import com.banking.core.userservice.dto.UserResponse;
 import com.banking.core.userservice.entity.User;
 import com.banking.core.userservice.repository.UserRepository;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

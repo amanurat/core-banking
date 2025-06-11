@@ -1,7 +1,5 @@
 package com.banking.core.userservice.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class LoginServiceTest {
 
   //unit test for login service

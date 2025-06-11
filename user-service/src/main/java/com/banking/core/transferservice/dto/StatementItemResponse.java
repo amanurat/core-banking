@@ -1,7 +1,6 @@
 package com.banking.core.transferservice.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
