@@ -55,12 +55,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            UserDetail userDetail = new UserDetail();
-            userDetail.setUsername(user.getEmail());
-            userDetail.setThaiName(user.getThaiName());
-            userDetail.setEnglishName(user.getEnglishName());
-            userDetail.setCitizenId(user.getCitizenId());
-            userDetail.setRole(user.getRole());
+            UserDetail userDetail = UserDetail.builder()
+                .username(user.getEmail())
+                .thaiName(user.getThaiName())
+                .englishName(user.getEnglishName())
+                .citizenId(user.getCitizenId())
+                .role(user.getRole())
+                .build();
 
             List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
@@ -74,5 +75,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-}
+    }}

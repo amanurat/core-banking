@@ -27,12 +27,10 @@ public class RegisterService {
 
     User user = User.builder()
         .email(request.getEmail())
-//        .password(request.getPassword())
         .password(passwordEncoder.encode(request.getPassword()))
         .citizenId(request.getCitizenId())
         .thaiName(request.getThaiName())
         .englishName(request.getEnglishName())
-//        .pinHash(request.getPin())
         .pin(passwordEncoder.encode(request.getPin()))
         .role("CUSTOMER")
         .build();

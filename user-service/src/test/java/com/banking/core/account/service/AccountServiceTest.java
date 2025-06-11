@@ -5,6 +5,8 @@ import com.banking.core.account.dto.AccountResponse;
 import com.banking.core.account.dto.CreateAccountRequest;
 import com.banking.core.account.entity.Account;
 import com.banking.core.account.repository.AccountRepository;
+import com.banking.core.userservice.dto.UserDetail;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -26,6 +28,10 @@ class AccountServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    private static final UserDetail userDetailTeller = UserDetail.builder()
+        .role("TELLER")
+        .build();
+
     private CreateAccountRequest sampleRequest() {
         CreateAccountRequest req = new CreateAccountRequest();
         req.setCitizenId("1234567890123");
@@ -39,6 +45,7 @@ class AccountServiceTest {
     void createAccount_withValidInput_shouldReturnAccountResponse() {
         CreateAccountRequest req = sampleRequest();
 
+
         when(accountRepository.existsByAccountNumber(anyString())).thenReturn(false);
 
         Account savedAccount = Account.builder()
@@ -49,14 +56,13 @@ class AccountServiceTest {
 
         when(accountRepository.save(any(Account.class))).thenReturn(savedAccount);
 
-        AccountResponse response = accountService.createAccount(req, "TELLER");
+        AccountResponse response = accountService.createAccount(req, userDetailTeller);
 
         assertThat(response).isNotNull();
         assertThat(response.getAccountNumber()).isEqualTo("1234567");
-        assertThat(response.getBalance()).isEqualTo(1000L);
-    }
+        assertThat(response.getBalance()).isEqualTo(BigDecimal.ZERO);
 
-    @Test
+    }    @Test
     void createAccount_shouldGenerateUniqueAccountNumber() {
         CreateAccountRequest req = sampleRequest();
 
@@ -72,7 +78,7 @@ class AccountServiceTest {
 
         when(accountRepository.save(any(Account.class))).thenReturn(savedAccount);
 
-        AccountResponse response = accountService.createAccount(req, "TELLER");
+        AccountResponse response = accountService.createAccount(req, userDetailTeller);
 
         assertThat(response.getAccountNumber()).isNotNull();
         assertThat(response.getAccountNumber()).isEqualTo("0000002");
@@ -89,7 +95,7 @@ class AccountServiceTest {
             .save(argThat(account -> "1234567890123".equals(account.getCitizenId())));
 
         assertThatThrownBy(() -> {
-            accountService.createAccount(req, "TELLER");
+            accountService.createAccount(req, userDetailTeller);
         })
             .isInstanceOf(RuntimeException.class)
             .hasMessage("Citizen ID already used");

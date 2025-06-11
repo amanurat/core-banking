@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 //write unit test for RegisterService class
 class RegisterServiceTest {
@@ -21,7 +22,7 @@ class RegisterServiceTest {
   @InjectMocks RegisterService registerService;
 
   @Mock UserRepository userRepository;
-
+  @Mock PasswordEncoder passwordEncoder;
 
   @BeforeEach
   void setUp() {
@@ -47,7 +48,7 @@ class RegisterServiceTest {
 
     when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
     when(userRepository.existsByCitizenId(request.getCitizenId())).thenReturn(false);
-//    when(passwordEncoder.encode(any())).thenReturn("hashed");
+    when(passwordEncoder.encode(any())).thenReturn("hashed");
     User savedUser = User.builder()
         .id(1L)
         .email(request.getEmail())
