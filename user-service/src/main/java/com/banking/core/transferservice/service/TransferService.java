@@ -9,6 +9,7 @@ import com.banking.core.transferservice.entity.Transaction;
 import com.banking.core.transferservice.repository.TransactionRepository;
 import com.banking.core.userservice.dto.UserDetail;
 import com.banking.core.userservice.repository.UserRepository;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,23 +65,33 @@ public class TransferService {
         Account to = accountRepository.findByAccountNumber(request.getToAccount())
             .orElseThrow(() -> new RuntimeException("Destination account not found"));
 
-        if (from.getBalance() < request.getAmount()) {
+        if (from.getBalance().compareTo(request.getAmount()) < 0) {
             throw new RuntimeException("Insufficient balance");
         }
 
-        from.setBalance(from.getBalance() - request.getAmount());
-        to.setBalance(to.getBalance() + request.getAmount());
+        // Perform transfer
+        BigDecimal newFromBalance = from.getBalance().subtract(request.getAmount());
+        BigDecimal newToBalance = to.getBalance().add(request.getAmount());
+
+        from.setBalance(newFromBalance);
+        to.setBalance(newToBalance);
 
         accountRepository.save(from);
         accountRepository.save(to);
 
+        // Save transaction (from perspective of sender)
         Transaction txn = Transaction.builder()
             .fromAccount(from.getAccountNumber())
             .toAccount(to.getAccountNumber())
             .amount(request.getAmount())
-            .timestamp(LocalDateTime.now())
+            .resultingBalance(newFromBalance)
             .type("TRANSFER")
+            .code("A1") // example
+            .channel("ATS") // assume Online
+            .remark("Transfer to x" + to.getAccountNumber().substring(to.getAccountNumber().length() - 4))
+            .timestamp(LocalDateTime.now())
             .build();
+
 
         transactionRepository.save(txn);
 

@@ -1,6 +1,7 @@
 
 package com.banking.core.account.dto;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AccountResponse {
     private String accountNumber;
-    private Long balance;
+    private BigDecimal balance;
 }

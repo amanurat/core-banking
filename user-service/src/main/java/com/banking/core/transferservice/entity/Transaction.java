@@ -2,6 +2,7 @@
 package com.banking.core.transferservice.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,10 +22,12 @@ public class Transaction {
 
     private String fromAccount;
     private String toAccount;
-
-    private Long amount;
-
+    private BigDecimal amount;
     private LocalDateTime timestamp;
-
     private String type; // e.g. "TRANSFER", "DEPOSIT"
+
+    private String code;              // e.g. A0, A1
+    private String channel;           // e.g. ATS, OTC
+    private String remark;            // Transfer to x1234 Mr. X
+    private BigDecimal resultingBalance;    // ยอดคงเหลือหลังทำรายการ (สำหรับบัญชีต้นทาง)
 }

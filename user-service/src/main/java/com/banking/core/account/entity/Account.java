@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,7 +45,7 @@ public class Account {
 
     @Column(nullable = false)
     @Builder.Default  // Add this annotation
-    private Long balance = 0L;
+    private BigDecimal balance = BigDecimal.ZERO;
 
 
     private String createdBy; // teller user
