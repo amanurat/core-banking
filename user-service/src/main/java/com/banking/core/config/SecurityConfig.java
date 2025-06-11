@@ -1,6 +1,7 @@
 package com.banking.core.config;
 
 
+import com.banking.core.userservice.repository.UserRepository;
 import com.banking.core.userservice.security.JwtAuthenticationFilter;
 import com.banking.core.userservice.util.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/users/register").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService),
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService, userRepository),
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

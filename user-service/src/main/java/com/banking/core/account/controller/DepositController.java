@@ -3,9 +3,12 @@ package com.banking.core.account.controller;
 import com.banking.core.account.dto.DepositRequest;
 import com.banking.core.account.dto.DepositResponse;
 import com.banking.core.account.service.DepositService;
+import com.banking.core.userservice.dto.UserDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +23,11 @@ public class DepositController {
 
   @PostMapping
   @PreAuthorize("hasRole('TELLER')")
-  public ResponseEntity<DepositResponse> deposit(@RequestBody DepositRequest request) {
+  public ResponseEntity<DepositResponse> deposit(@RequestBody DepositRequest request, @AuthenticationPrincipal UserDetail userDetail) {
     // จำลอง role จาก security context (จริงควรดึงจาก JWT auth)
-    String role = "TELLER";
+//    String role = "TELLER";
 
-    return ResponseEntity.ok(depositService.deposit(request, role));
+    System.out.println(userDetail);
+    return ResponseEntity.ok(depositService.deposit(request, userDetail.getRole()));
   }
 }

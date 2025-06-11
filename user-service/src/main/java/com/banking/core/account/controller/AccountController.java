@@ -5,10 +5,12 @@ import com.banking.core.account.dto.AccountResponse;
 import com.banking.core.account.dto.CreateAccountRequest;
 import com.banking.core.account.entity.Account;
 import com.banking.core.account.service.AccountService;
+import com.banking.core.userservice.dto.UserDetail;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +22,7 @@ public class AccountController {
 
     @PostMapping
     @PreAuthorize("hasRole('TELLER')")
-    public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest request) {
+    public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest request, @AuthenticationPrincipal UserDetail userDetail) {
         String tellerName = "TELLER";
         return ResponseEntity.ok(accountService.createAccount(request, tellerName));
     }

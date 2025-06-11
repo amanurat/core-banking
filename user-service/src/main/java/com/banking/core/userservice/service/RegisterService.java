@@ -32,7 +32,8 @@ public class RegisterService {
         .citizenId(request.getCitizenId())
         .thaiName(request.getThaiName())
         .englishName(request.getEnglishName())
-        .pinHash(request.getPin())
+//        .pinHash(request.getPin())
+        .pin(passwordEncoder.encode(request.getPin()))
         .role("CUSTOMER")
         .build();
 

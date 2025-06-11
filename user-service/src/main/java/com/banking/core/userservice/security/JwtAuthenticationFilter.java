@@ -1,17 +1,25 @@
 package com.banking.core.userservice.security;
 
+import com.banking.core.userservice.dto.UserDetail;
+import com.banking.core.userservice.entity.User;
+import com.banking.core.userservice.repository.UserRepository;
 import com.banking.core.userservice.util.JwtService;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.io.IOException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
@@ -20,6 +28,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -40,11 +50,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = jwtService.extractUsername(jwt);
 
         if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            UserDetail userDetail = new UserDetail();
+            userDetail.setUsername(user.getEmail());
+            userDetail.setThaiName(user.getThaiName());
+            userDetail.setEnglishName(user.getEnglishName());
+            userDetail.setCitizenId(user.getCitizenId());
+            userDetail.setRole(user.getRole());
+
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
             if (jwtService.validateToken(jwt)) {
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetail, null, authorities);
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

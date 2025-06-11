@@ -46,7 +46,7 @@ public class User {
   @Column(nullable = false)
   private String englishName;
 
-  private String pinHash; // hashed 6-digit PIN
+  private String pin; // hashed 6-digit PIN
 
   private String role; // CUSTOMER, TELLER
 
