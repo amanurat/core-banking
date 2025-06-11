@@ -67,7 +67,9 @@ class AccountServiceTest {
         assertThat(response.getAccountNumber()).isEqualTo("1234567");
         assertThat(response.getBalance()).isEqualTo(BigDecimal.ZERO);
 
-    }    @Test
+    }
+
+    @Test
     void createAccount_shouldGenerateUniqueAccountNumber() {
         CreateAccountRequest req = sampleRequest();
 
@@ -105,26 +107,5 @@ class AccountServiceTest {
             .isInstanceOf(RuntimeException.class)
             .hasMessage("Citizen ID already used");
     }
-
-   /* @Test
-    void createAccount_withNullInitialDeposit_shouldDefaultToZero() {
-        CreateAccountRequest req = sampleRequest();
-        req.setInitialDeposit(null);
-
-        when(accountRepository.existsByAccountNumber(anyString())).thenReturn(false);
-
-        Account savedAccount = Account.builder()
-            .id(3L)
-            .accountNumber("0000003")
-            .citizenId(req.getCitizenId())
-            .balance(0L)
-            .build();
-
-        when(accountRepository.save(any(Account.class))).thenReturn(savedAccount);
-
-        AccountResponse response = accountService.createAccount(req, "TELLER");
-
-        assertThat(response.getBalance()).isEqualTo(0L);
-    }*/
 
 }
