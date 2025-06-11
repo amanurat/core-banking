@@ -22,9 +22,8 @@ public class AccountController {
 
     @PostMapping
     @PreAuthorize("hasRole('TELLER')")
-    public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest request, @AuthenticationPrincipal UserDetail userDetail) {
-        String tellerName = "TELLER";
-        return ResponseEntity.ok(accountService.createAccount(request, tellerName));
+    public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest request, @AuthenticationPrincipal UserDetail authenticatedUser) {
+        return ResponseEntity.ok(accountService.createAccount(request, authenticatedUser));
     }
 
     //get all accounts
