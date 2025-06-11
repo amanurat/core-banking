@@ -64,6 +64,23 @@
     </dependency>
 
 
+    <!-- Logging Dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-logging</artifactId>
+    </dependency>
+
+    <!-- SLF4J API (included in spring-boot-starter-logging but explicit for clarity) -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- Logback Classic (included in spring-boot-starter-logging) -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
 
 
     <!-- Database -->
