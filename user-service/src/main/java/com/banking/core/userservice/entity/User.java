@@ -33,7 +33,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String email;
+  private String email; // using email as username
 
   private String password; // hashed
 
