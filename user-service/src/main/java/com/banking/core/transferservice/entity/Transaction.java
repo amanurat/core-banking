@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "transactions")
+@Table(name = "transactions", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"transactionId"})
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,4 +40,6 @@ public class Transaction {
     private String channel;           // e.g. ATS, OTC
     private String remark;            // Transfer to x1234 Mr. X
     private BigDecimal resultingBalance;    // ยอดคงเหลือหลังทำรายการ (สำหรับบัญชีต้นทาง)
+
+    private String transactionId;
 }
