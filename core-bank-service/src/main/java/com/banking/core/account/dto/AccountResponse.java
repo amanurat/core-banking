@@ -9,5 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AccountResponse {
     private String accountNumber;
+    private String accountName;
     private BigDecimal balance;
+
 }

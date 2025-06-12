@@ -30,9 +30,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.createAccount(request, authenticatedUser));
     }
 
-    //get all accounts
-    @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        return ResponseEntity.ok(accountService.getAllAccounts());
+
+    @PostMapping("/me")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<List<AccountResponse>> getMyAccounts(@AuthenticationPrincipal UserDetail authenticatedUser) {
+        return ResponseEntity.ok(accountService.getMyAccounts(authenticatedUser));
     }
+
 }
