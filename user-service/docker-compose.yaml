@@ -1,5 +1,38 @@
 version: '3.8'
+
 services:
+  core-bank:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: core-bank-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/myapp_db
+      - SPRING_DATASOURCE_USERNAME=myapp_user
+      - SPRING_DATASOURCE_PASSWORD=myapp_password
+      - JWT_SECRET=your-secret-key-here-make-it-long-and-secure
+      - SPRING_DATA_REDIS_HOST=redis  # This should match the Redis service name
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_TIMEOUT=2000
+      - SPRING_DATA_REDIS_DATABASE=0
+      - SPRING_DATA_REDIS_PASSWORD=
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - banking-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
   postgres:
     image: postgres:15
     container_name: postgres_database
@@ -8,11 +41,12 @@ services:
       POSTGRES_DB: myapp_db
       POSTGRES_USER: myapp_user
       POSTGRES_PASSWORD: myapp_password
-      PGDATA: ./postgres_data
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - banking-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U myapp_user -d myapp_db"]
       interval: 30s
@@ -26,6 +60,18 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - banking-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  banking-network:
+    driver: bridge
 
 volumes:
   postgres_data:
