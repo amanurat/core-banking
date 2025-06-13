@@ -37,6 +37,7 @@ This is a backend proof-of-concept (PoC) for a **Savings Account** module simula
 - **Maven**
 - **H2 (in-memory DB for PoC)**
 - **PostgreSQL**
+- **Redis**
 - **JUnit & Mockito (for testing)**
 - **Docker & Docker Compose**
 
