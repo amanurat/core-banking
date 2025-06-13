@@ -66,12 +66,12 @@ docker compose up
 
 ## 🚀 Startup  start the application with Shell Script:
 ```sh
-.startup.sh
+startup.sh
 ```
 
 ## 🛑 Stop the application with Shell Script:
 ```sh
-.stop.sh
+stop.sh
 ```
 
 
